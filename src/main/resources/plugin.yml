@@ -1,0 +1,11 @@
+name: Man10Chinchirorin
+version: ${project.version}
+main: red.man10.man10chinchirorin.Man10Chinchirorin
+authors: [Mr_IK]
+description: Man10 Chinchirorin Gamble Plugin
+depend: [Man10VaultAPIPlus]
+commands:
+  mcr:
+    description: Man10chinchirorin maincommand
+    usage: /<command>
+    default: op
