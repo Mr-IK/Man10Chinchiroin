@@ -37,9 +37,6 @@ public final class Man10Chinchirorin extends JavaPlugin implements Listener {
     int parenta = -1;
     int maxplayers = -1;
     double parentbal = -1;
-    ////////////////////////
-    //debug用
-    HashMap<UUID,ArrayList<Integer>> debug;
 
     @Override
     public void onEnable() {
@@ -60,7 +57,6 @@ public final class Man10Chinchirorin extends JavaPlugin implements Listener {
         getCommand("mcr").setExecutor(new MCRCommand(this));
         Bukkit.getServer().getPluginManager().registerEvents(this,this);
         joinplayers = new ArrayList<>();
-        debug = new HashMap<>();
     }
 
     @Override

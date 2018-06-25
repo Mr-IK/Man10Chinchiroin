@@ -42,7 +42,7 @@ public class MCRCommand implements CommandExecutor {
             }else{
                 p.sendMessage("§e§lマンチロが行われています！！ §a§l親: "+ Bukkit.getPlayer(plugin.parent).getDisplayName());
                 p.sendMessage("§eベット金額: "+new JPYBalanceFormat(plugin.onebet).getString() +" 必要金額: "+new JPYBalanceFormat(plugin.onebet*5).getString());
-                p.sendMessage("§a§l募集人数: §e"+plugin.maxplayers+"人 §2§l参加人数: §e"+plugin.joinplayers.size()+"人 §e§l合計賭け金: "+new JPYBalanceFormat(plugin.totalBet.getCurrentBalance()).getString()+"円");
+                p.sendMessage("§a§l募集人数: §e"+plugin.maxplayers+"人 §2§l参加人数: §e"+plugin.joinplayers.size()+"人 §e§l合計賭け金: "+new JPYBalanceFormat(plugin.totalBet.getBalance()).getString()+"円");
                 for(UUID uuid:plugin.joinplayers){
                     p.sendMessage("§c§l"+Bukkit.getPlayer(uuid).getDisplayName());
                 }
@@ -52,6 +52,8 @@ public class MCRCommand implements CommandExecutor {
             p.sendMessage("§6/mcr join §f: マンチロに参加します");
             p.sendMessage("§4§lJ§6§lA§e§lC§a§lK§2§lP§b§lO§3§lT§f§l: §e§l"+new JPYBalanceFormat(plugin.getJackpot()).getString()+"円");
             p.sendMessage("§f=========="+plugin.prefix+"§f==========");
+            p.sendMessage("§7Version: 1.0");
+            p.sendMessage("§cCreated by Mr_IK");
             return true;
         }else if(args.length == 1){
             if(args[0].equalsIgnoreCase("join")){
@@ -151,70 +153,6 @@ public class MCRCommand implements CommandExecutor {
                 MCRData.gameStart(p.getUniqueId(),bit,max);
                 return true;
             }
-        }else if(args.length == 4){
-            if(args[0].equalsIgnoreCase("join")){
-                if(!p.hasPermission("mcr.op")){
-                    p.sendMessage(plugin.prefix+"§cあなたには権限がありません！");
-                    return true;
-                }
-                int one = -1;
-                int two = -1;
-                int tree = -1;
-                try{
-                    one = Integer.parseInt(args[1]);
-                    two = Integer.parseInt(args[2]);
-                    tree = Integer.parseInt(args[3]);
-                }catch (NumberFormatException e){
-                    p.sendMessage(plugin.prefix+"§c数字で入力してください。");
-                    return true;
-                }
-                if(one <= 0||one >= 7){
-                    p.sendMessage(plugin.prefix+"§c1以上6以下");
-                    return true;
-                }else if(two <= 0||two >= 7) {
-                    p.sendMessage(plugin.prefix + "§c1以上6以下");
-                    return true;
-                }else if(tree <= 0||tree >= 7) {
-                    p.sendMessage(plugin.prefix + "§c1以上6以下");
-                    return true;
-                }
-                if(plugin.vault.getBalance(p.getUniqueId())<plugin.onebet*5){
-                    p.sendMessage(plugin.prefix+"§cお金が足りません！ 必要金額: "+new JPYBalanceFormat(plugin.onebet*5).getString());
-                    return true;
-                }
-                if(plugin.parent == null) {
-                    p.sendMessage(plugin.prefix+"§cマンチロ中ではありません");
-                    return true;
-                }
-                if(plugin.gametime){
-                    p.sendMessage(plugin.prefix+"§cもう定員です");
-                    return true;
-                }
-                if(plugin.joinplayers.contains(p.getUniqueId())){
-                    p.sendMessage(plugin.prefix+"§cすでに参加してます。");
-                    return true;
-                }
-                if(plugin.parent==p.getUniqueId()){
-                    p.sendMessage(plugin.prefix+"§cあなたは親です。");
-                    return true;
-                }
-                plugin.vault.transferMoneyPlayerToPool(p.getUniqueId(),plugin.totalBet.getId(),plugin.onebet*5,TransactionCategory.GAMBLE,TransactionType.BET,"mcr bet: "+p.getName());
-                p.sendMessage(plugin.prefix+"§c§l"+p.getDisplayName()+"§a§lさんが参加しました。");
-                for(UUID uuid:plugin.joinplayers){
-                    Bukkit.getPlayer(uuid).sendMessage(plugin.prefix+"§c§l"+p.getDisplayName()+"§a§lさんが参加しました。");
-                }
-                Bukkit.getPlayer(plugin.parent).sendMessage(plugin.prefix+"§c§l"+p.getDisplayName()+"§a§lさんが参加しました。");
-                plugin.joinplayers.add(p.getUniqueId());
-                ArrayList<Integer> debug = new ArrayList<>();
-                debug.add(one);
-                debug.add(two);
-                debug.add(tree);
-                plugin.debug.put(p.getUniqueId(),debug);
-                if(plugin.joinplayers.size() == plugin.maxplayers){
-                    MCRData.gamePush1();
-                }
-                return true;
-            }
         }
         p.sendMessage("§f=========="+plugin.prefix+"§f==========");
         p.sendMessage("");
@@ -223,7 +161,7 @@ public class MCRCommand implements CommandExecutor {
         }else{
             p.sendMessage("§e§lマンチロが行われています！！ §a§l親: "+ Bukkit.getPlayer(plugin.parent).getDisplayName());
             p.sendMessage("§eベット金額: "+new JPYBalanceFormat(plugin.onebet).getString() +" 必要金額: "+new JPYBalanceFormat(plugin.onebet*5).getString());
-            p.sendMessage("§a§l募集人数: §e"+plugin.maxplayers+"人 §2§l参加人数: §e"+plugin.joinplayers.size()+"人 §e§l合計賭け金: "+new JPYBalanceFormat(plugin.totalBet.getCurrentBalance()).getString()+"円");
+            p.sendMessage("§a§l募集人数: §e"+plugin.maxplayers+"人 §2§l参加人数: §e"+plugin.joinplayers.size()+"人 §e§l合計賭け金: "+new JPYBalanceFormat(plugin.totalBet.getBalance()).getString()+"円");
             for(UUID uuid:plugin.joinplayers){
                 p.sendMessage("§c§l"+Bukkit.getPlayer(uuid).getDisplayName());
             }
@@ -233,6 +171,8 @@ public class MCRCommand implements CommandExecutor {
         p.sendMessage("§6/mcr join §f: マンチロに参加します");
         p.sendMessage("§4§lJ§6§lA§e§lC§a§lK§2§lP§b§lO§3§lT§f§l: §e§l"+new JPYBalanceFormat(plugin.getJackpot()).getString()+"円");
         p.sendMessage("§f=========="+plugin.prefix+"§f==========");
+        p.sendMessage("§7Version: 1.0");
+        p.sendMessage("§cCreated by Mr_IK");
         return true;
     }
 }
