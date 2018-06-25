@@ -39,11 +39,9 @@ public class MCRData {
         plugin.parentbal = -1;
         plugin.maxplayers = -1;
         plugin.gametime = false;
-        plugin.getLogger().info(plugin.totalBet.getBalance()+"");
-        plugin.vault.transferMoneyPoolToCountry(plugin.totalBets,plugin.totalBet.getBalance(),TransactionCategory.GAMBLE,TransactionType.FEE,"added jackpot");
-        plugin.getLogger().info(plugin.totalBet.getBalance()+"");
+        plugin.vault.giveCountyMoney(plugin.totalBet.getBalance(),TransactionType.FEE,"add jackpot bal");
+        plugin.vault.takeMoneyPoolMoney(plugin.totalBets,plugin.totalBet.getBalance(),TransactionType.FEE,"take jackpot bal");
         Bukkit.broadcastMessage(plugin.prefix+"§a§lマンチロが終了しました。");
-        plugin.debug.clear();
     }
 
     public static void timeEnd(){
