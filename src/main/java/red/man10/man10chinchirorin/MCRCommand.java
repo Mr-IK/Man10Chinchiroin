@@ -10,7 +10,6 @@ import red.man10.man10vaultapiplus.JPYBalanceFormat;
 import red.man10.man10vaultapiplus.enums.TransactionCategory;
 import red.man10.man10vaultapiplus.enums.TransactionType;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class MCRCommand implements CommandExecutor {
@@ -50,6 +49,7 @@ public class MCRCommand implements CommandExecutor {
             p.sendMessage("");
             p.sendMessage("§6/mcr start [賭け金] [最大人数] §f: 親としてマンチロをスタートします");
             p.sendMessage("§6/mcr join §f: マンチロに参加します");
+            p.sendMessage("§6/mcr rule §f: ルールを見ます");
             p.sendMessage("§4§lJ§6§lA§e§lC§a§lK§2§lP§b§lO§3§lT§f§l: §e§l"+new JPYBalanceFormat(plugin.getJackpot()).getString()+"円");
             p.sendMessage("§f=========="+plugin.prefix+"§f==========");
             p.sendMessage("§7Version: 1.0");
@@ -122,6 +122,15 @@ public class MCRCommand implements CommandExecutor {
                 plugin.power = true;
                 p.sendMessage(plugin.prefix+"§aONしました。");
                 return true;
+            }else if(args[0].equalsIgnoreCase("rule")){
+                p.sendMessage("§f=========="+plugin.prefix+"§f==========");
+                p.sendMessage("§6役一覧: [1:1:1 jackpotチャンス] [それ以外の三つ揃い ゾロメ] [出目合計10 man10] [出目合計5 dan5]");
+                p.sendMessage("§6役一覧: [二つそろって残り一つが1 イチ] [二つそろって残り一つが6 ロ] [二つそろって2～5 その数字が強さ]");
+                p.sendMessage("");
+                p.sendMessage("§e配当率: 『ゾロメ:3倍勝』 『man10:2倍勝』 ロ:1倍勝 イチ:1倍負 dan5:2倍負 通常:1倍負/勝");
+                p.sendMessage("§ejackpotの払い出し金額: 賭け金x10 or jackpotすべて のどちらか金額が低いほう");
+                p.sendMessage("§f=========="+plugin.prefix+"§f==========");
+                return true;
             }
         }else if(args.length == 3){
             if(args[0].equalsIgnoreCase("start")){
@@ -169,6 +178,7 @@ public class MCRCommand implements CommandExecutor {
         p.sendMessage("");
         p.sendMessage("§6/mcr start [賭け金] [最大人数] §f: 親としてマンチロをスタートします");
         p.sendMessage("§6/mcr join §f: マンチロに参加します");
+        p.sendMessage("§6/mcr rule §f: ルールを見ます");
         p.sendMessage("§4§lJ§6§lA§e§lC§a§lK§2§lP§b§lO§3§lT§f§l: §e§l"+new JPYBalanceFormat(plugin.getJackpot()).getString()+"円");
         p.sendMessage("§f=========="+plugin.prefix+"§f==========");
         p.sendMessage("§7Version: 1.0");

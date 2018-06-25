@@ -23,7 +23,7 @@ public class MCRData {
         plugin.onebet = onebet;
         plugin.parent = uuid;
         plugin.parentbal = onebet * 5 * maxplayer;
-        Bukkit.broadcastMessage(plugin.prefix+"§a§l"+Bukkit.getPlayer(uuid).getDisplayName()+"§f§lさんにより§e§l"+new JPYBalanceFormat(onebet).getString()+"円§f§lマンチロが開始されました！§a§l: /mcr");
+        Bukkit.broadcastMessage(plugin.prefix+"§a§l"+Bukkit.getPlayer(uuid).getDisplayName()+"§f§lさんにより§d§l"+maxplayer+"§f§l人募集の§e§l"+new JPYBalanceFormat(onebet).getString()+"円§f§lマンチロが開始されました！§a§l: /mcr");
         plugin.timer.betTime();
         return true;
     }
@@ -117,7 +117,7 @@ public class MCRData {
                     reset();
                 }
             }
-        }.runTaskTimer(plugin,60,20);
+        }.runTaskTimer(plugin,100,20);
     }
 
     public static void Oyajackpotchance(){
@@ -152,7 +152,7 @@ public class MCRData {
                 }
                 reset();
             }
-        }.runTaskTimer(plugin,60,20);
+        }.runTaskTimer(plugin,100,20);
     }
 
     public static void Childjackpotchance(UUID uuid){
@@ -188,7 +188,7 @@ public class MCRData {
                 plugin.joinplayers.remove(uuid);
                 jackskip = false;
             }
-        }.runTaskTimer(plugin,60,20);
+        }.runTaskTimer(plugin,100,20);
     }
 
     public static boolean jackskip = false;
@@ -214,7 +214,7 @@ public class MCRData {
                     childbattle(uuid);
                 }
             }
-        }.runTaskTimer(plugin,0,80);
+        }.runTaskTimer(plugin,120,80);
     }
 
     public static void childbattle(UUID uuid){
@@ -292,7 +292,7 @@ public class MCRData {
                     reset();
                 }
             }
-        }.runTaskTimer(plugin,60,20);
+        }.runTaskTimer(plugin,100,20);
     }
 
     public static void oyaWin(double bairitu){
