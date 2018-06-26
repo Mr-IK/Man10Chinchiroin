@@ -52,7 +52,7 @@ public class MCRCommand implements CommandExecutor {
             p.sendMessage("§6/mcr rule §f: ルールを見ます");
             p.sendMessage("§4§lJ§6§lA§e§lC§a§lK§2§lP§b§lO§3§lT§f§l: §e§l"+new JPYBalanceFormat(plugin.getJackpot()).getString()+"円");
             p.sendMessage("§f=========="+plugin.prefix+"§f==========");
-            p.sendMessage("§7Version: 1.0");
+            p.sendMessage("§7Version: 1.1");
             p.sendMessage("§cCreated by Mr_IK");
             return true;
         }else if(args.length == 1){
@@ -138,6 +138,10 @@ public class MCRCommand implements CommandExecutor {
                     p.sendMessage(plugin.prefix+"§c現在マンチロ中です！");
                     return true;
                 }
+                if(!p.hasPermission("mcr.start")){
+                    p.sendMessage(plugin.prefix+"§cマンチロリンをスタートする権限がありません");
+                    return true;
+                }
                 double bit = -1;
                 int max = -1;
                 try{
@@ -150,8 +154,40 @@ public class MCRCommand implements CommandExecutor {
                 if(bit < 1000000){
                     p.sendMessage(plugin.prefix+"§c賭け金は100万以上の数字を入力してください。");
                     return true;
-                }else if(max <= 0){
-                    p.sendMessage(plugin.prefix+"§c人数は1以上の数字を入力してください。");
+                }else if(max <= 0||max >= 11){
+                    p.sendMessage(plugin.prefix+"§c人数は1以上10以下の数字を入力してください。");
+                    return true;
+                }
+                if(plugin.vault.getBalance(p.getUniqueId())<bit*5*max){
+                    p.sendMessage(plugin.prefix+"§c必要金額を持っていません！: "+new JPYBalanceFormat(bit*5*max).getString());
+                    return true;
+                }
+                plugin.vault.transferMoneyPlayerToPool(p.getUniqueId(),plugin.totalBet.getId(),bit*5*max,TransactionCategory.GAMBLE,TransactionType.BET,"mcr start: "+p.getName());
+                MCRData.gameStart(p.getUniqueId(),bit,max);
+                return true;
+            }else if(args[0].equalsIgnoreCase("new")){
+                if(plugin.parent != null) {
+                    p.sendMessage(plugin.prefix+"§c現在マンチロ中です！");
+                    return true;
+                }
+                if(!p.hasPermission("mcr.start")){
+                    p.sendMessage(plugin.prefix+"§cマンチロリンをスタートする権限がありません");
+                    return true;
+                }
+                double bit = -1;
+                int max = -1;
+                try{
+                    bit = Double.parseDouble(args[1]);
+                    max = Integer.parseInt(args[2]);
+                }catch (NumberFormatException e){
+                    p.sendMessage(plugin.prefix+"§c数字で入力してください。");
+                    return true;
+                }
+                if(bit < 1000000){
+                    p.sendMessage(plugin.prefix+"§c賭け金は100万以上の数字を入力してください。");
+                    return true;
+                }else if(max <= 0||max >= 11){
+                    p.sendMessage(plugin.prefix+"§c人数は1以上10以下の数字を入力してください。");
                     return true;
                 }
                 if(plugin.vault.getBalance(p.getUniqueId())<bit*5*max){
@@ -181,7 +217,7 @@ public class MCRCommand implements CommandExecutor {
         p.sendMessage("§6/mcr rule §f: ルールを見ます");
         p.sendMessage("§4§lJ§6§lA§e§lC§a§lK§2§lP§b§lO§3§lT§f§l: §e§l"+new JPYBalanceFormat(plugin.getJackpot()).getString()+"円");
         p.sendMessage("§f=========="+plugin.prefix+"§f==========");
-        p.sendMessage("§7Version: 1.0");
+        p.sendMessage("§7Version: 1.1");
         p.sendMessage("§cCreated by Mr_IK");
         return true;
     }

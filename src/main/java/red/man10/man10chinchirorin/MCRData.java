@@ -1,6 +1,11 @@
 package red.man10.man10chinchirorin;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import red.man10.man10vaultapiplus.JPYBalanceFormat;
 import red.man10.man10vaultapiplus.enums.TransactionCategory;
@@ -23,7 +28,9 @@ public class MCRData {
         plugin.onebet = onebet;
         plugin.parent = uuid;
         plugin.parentbal = onebet * 5 * maxplayer;
-        Bukkit.broadcastMessage(plugin.prefix+"§a§l"+Bukkit.getPlayer(uuid).getDisplayName()+"§f§lさんにより§d§l"+maxplayer+"§f§l人募集の§e§l"+new JPYBalanceFormat(onebet).getString()+"円§f§lマンチロが開始されました！§a§l: /mcr");
+        for(Player p:Bukkit.getOnlinePlayers()){
+            sendHoverText(p,plugin.prefix+"§a§l"+Bukkit.getPlayer(uuid).getDisplayName()+"§f§lさんにより§d§l"+maxplayer+"§f§l人募集の§e§l"+new JPYBalanceFormat(onebet).getString()+"円§f§lマンチロが開始されました！§a§l: /mcr","§e参加する(必要: "+ (onebet * 5)+")","/mcr join");
+        }
         plugin.timer.betTime();
         return true;
     }
@@ -352,6 +359,26 @@ public class MCRData {
         Bukkit.broadcastMessage(plugin.prefix+"§c§l"+Bukkit.getPlayer(uuid).getDisplayName()+"§f§l: §e§l"+new JPYBalanceFormat(plugin.onebet*5).getString()+"円 → "+new JPYBalanceFormat(plugin.onebet*5).getString()+"円");
         plugin.vault.transferMoneyPoolToPlayer(plugin.totalBet.getId(),uuid,plugin.onebet*5,TransactionCategory.GAMBLE,TransactionType.DEPOSIT,"mcr draw: "+Bukkit.getPlayer(uuid).getName());
         plugin.joinplayers.remove(uuid);
+    }
+
+    public static void sendHoverText(Player p, String text, String hoverText, String command){
+        //////////////////////////////////////////
+        //      ホバーテキストとイベントを作成する
+        HoverEvent hoverEvent = null;
+        if(hoverText != null){
+            BaseComponent[] hover = new ComponentBuilder(hoverText).create();
+            hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover);
+        }
+
+        //////////////////////////////////////////
+        //   クリックイベントを作成する
+        ClickEvent clickEvent = null;
+        if(command != null){
+            clickEvent = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command);
+        }
+
+        BaseComponent[] message = new ComponentBuilder(text).event(hoverEvent).event(clickEvent). create();
+        p.spigot().sendMessage(message);
     }
 
 

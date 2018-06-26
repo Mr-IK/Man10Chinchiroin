@@ -1,7 +1,9 @@
 package red.man10.man10chinchirorin;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import red.man10.man10vaultapiplus.JPYBalanceFormat;
 
 public class Timer {
     Man10Chinchirorin plugin;
@@ -35,9 +37,13 @@ public class Timer {
                 }
 
                 if (time % 60 == 0&&3600 > time){
-                    Bukkit.broadcastMessage(plugin.prefix + "§6募集終了まで残り§e§l" + time/60 + "分");
+                    for(Player p:Bukkit.getOnlinePlayers()){
+                        MCRData.sendHoverText(p,plugin.prefix + "§6募集終了まで残り§e§l" + time/60 + "分","§e参加する(必要: "+ (plugin.onebet * 5)+")","/mcr join");
+                    }
                 }else if ((time % 10 == 0&&60 > time) || time <= 5 ){
-                    Bukkit.broadcastMessage(plugin.prefix + "§6募集終了まで残り§e§l" + time + "秒");
+                    for(Player p:Bukkit.getOnlinePlayers()){
+                        MCRData.sendHoverText(p,plugin.prefix + "§6募集終了まで残り§e§l" + time + "秒","§e参加する(必要: "+ (plugin.onebet * 5)+")","/mcr join");
+                    }
                 }
 
                 time--;
