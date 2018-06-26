@@ -11,6 +11,8 @@ public class RoleData {
             return "ピンゾロ";
         }else if(i == ii&&i==iii) {
             return "ゾロメ";
+        }else if(i == 3&&ii==1&&iii==5) {
+            return "サイコー";
         }else if(i+ii+iii==10){
             return "man10";
         }else if(i+ii+iii==5){
