@@ -214,7 +214,7 @@ public class MCRData {
                     childbattle(uuid);
                 }
             }
-        }.runTaskTimer(plugin,120,80);
+        }.runTaskTimer(plugin,20,120);
     }
 
     public static void childbattle(UUID uuid){
