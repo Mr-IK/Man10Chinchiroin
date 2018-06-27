@@ -9,8 +9,20 @@ public class RoleData {
     public static String mainhantei(int i,int ii,int iii){
         if(i == 1&&i == ii&&i==iii) {
             return "ピンゾロ";
+        }else if(i == 6&&i == ii&&i==iii) {
+            return "オマンコロ";
         }else if(i == ii&&i==iii) {
             return "ゾロメ";
+        }else if(i == 1&&ii==2&&iii==3){
+            return "ヒフミ";
+        }else if(i == 2&&ii==3&&iii==1){
+            return "ヒフミ";
+        }else if(i == 3&&ii==1&&iii==2){
+            return "ヒフミ";
+        }else if(i == 2&&ii==1&&iii==3){
+            return "ヒフミ";
+        }else if(i == 3&&ii==2&&iii==1){
+            return "ヒフミ";
         }else if(i == 3&&ii==1&&iii==5) {
             return "サイコー";
         }else if(i+ii+iii==10){
